@@ -14,4 +14,9 @@ export const Replies = styled.div`
   width: 94%;
   padding-left: 4.4rem;
   border-left: 2px solid hsl(223, 19%, 93%);
+
+  @media (max-width: 33em) {
+    width: 100%;
+    padding-left: 1.6rem;
+  }
 `

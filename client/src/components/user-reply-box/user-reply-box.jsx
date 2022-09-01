@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../context/user.context";
 
 import {
   UserReplyBoxContainer,
@@ -7,8 +8,9 @@ import {
   UserReplyButton
 } from './user-reply-box.styles';
 
-const UserReplyBox = ({ image, repliedUser, handleCreateReply }) => {
+const UserReplyBox = ({ repliedUser, handleCreateReply }) => {
   const [replyInput, setReplyInput] = useState(`@${repliedUser.split(' ').join('')} `);
+  const { currentUser } = useContext(UserContext);
 
   const handleSubmitReply = () => {
     handleCreateReply(replyInput);
@@ -17,13 +19,13 @@ const UserReplyBox = ({ image, repliedUser, handleCreateReply }) => {
 
   return (
     <UserReplyBoxContainer>
-    <UserReplyImg src={image} alt="" />
-    <UserReplyTextArea
-      rows="4"
-      value={replyInput}
-      onChange={({target}) => setReplyInput(target.value)}>
-    </UserReplyTextArea>
-    <UserReplyButton onClick={() => handleSubmitReply(replyInput)}>Send</UserReplyButton>
+      <UserReplyImg src={currentUser.image} alt={currentUser.name} />
+      <UserReplyTextArea
+        rows="4"
+        value={replyInput}
+        onChange={({target}) => setReplyInput(target.value)}>
+      </UserReplyTextArea>
+      <UserReplyButton onClick={() => handleSubmitReply(replyInput)}>Send</UserReplyButton>
   </UserReplyBoxContainer>
   )
 }

@@ -9,6 +9,7 @@ export const ScoreContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1.4rem;
+  width: 4rem;
   padding: 0.6rem 1rem;
   border-radius: 9px;
   background-color: hsl(228, 33%, 97%);

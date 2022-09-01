@@ -52,12 +52,11 @@ const CommentActionButton = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  
+
   &:hover {
     opacity: 0.5;
-  }
-  
-  `
+  }  
+`
 export const BtnBlue = styled(CommentActionButton)`
   color: hsl(238, 40%, 52%);
 `

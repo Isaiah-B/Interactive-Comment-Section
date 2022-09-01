@@ -14,7 +14,7 @@ import { Container, Main, SectionComments } from "./home.styles";
 const Home = () => {
   const dispatch = useDispatch();
 
-  const comments = useSelector(state => state.comments);
+  const comments = useSelector(state => state.comments.filter(comment => comment.replyingTo === null));
   const { currentUser, setCurrentUser } = useContext(UserContext);
   
   useEffect(() => {
@@ -59,7 +59,7 @@ const Home = () => {
 
       <section>
         { currentUser && 
-          <UserCommentInput image={currentUser.image} /> 
+          <UserCommentInput /> 
         }
       </section>
       </Main>

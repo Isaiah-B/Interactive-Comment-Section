@@ -1,5 +1,4 @@
 import {
-  ContentTop,
   ContentTopInfo,
   Username,
   UserTag,
@@ -11,7 +10,7 @@ import {
 
 const UserPostActions = ({ onClickDelete, onClickEdit }) => {
   return (
-    <ButtonsContainer>
+    <>
       <BtnRed onClick={onClickDelete}>
         <img src="images/icon-delete.svg" alt="" aria-hidden/>
         <span>Delete</span>
@@ -20,7 +19,7 @@ const UserPostActions = ({ onClickDelete, onClickEdit }) => {
         <img src="images/icon-edit.svg" alt="" aria-hidden/>
         <span>Edit</span>
       </BtnBlue>
-    </ButtonsContainer>
+    </>
   )
 }
 
@@ -72,23 +71,25 @@ const CommentBoxHeader = ({
   const timeSincePosted = getTimeSincePosted();
   
 return (  
-  <ContentTop>
+  <>
     <ContentTopInfo>
       <img src={image} alt={name}/>
       <Username>{name}</Username>
       { isUser && <UserTag>you</UserTag> }
       <TimePosted>{timeSincePosted}</TimePosted>
     </ContentTopInfo>
-    {
-      isUser 
-        ? <UserPostActions onClickDelete={handleClickDelete} onClickEdit={handleClickEdit}/>
-        : 
-        <BtnBlue onClick={handleClickReply}>
-          <img src="images/icon-reply.svg" alt="" aria-hidden/>
-          <span>Reply</span>
-        </BtnBlue>
-    }
-  </ContentTop>
+    <ButtonsContainer>
+      {
+        isUser
+          ? <UserPostActions onClickDelete={handleClickDelete} onClickEdit={handleClickEdit}/>
+          : 
+          <BtnBlue onClick={handleClickReply}>
+            <img src="images/icon-reply.svg" alt="" aria-hidden/>
+            <span>Reply</span>
+          </BtnBlue>
+      }
+    </ButtonsContainer>
+  </>
   )
 }
 

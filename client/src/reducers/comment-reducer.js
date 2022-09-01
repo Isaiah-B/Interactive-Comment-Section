@@ -55,21 +55,9 @@ export const createComment = (content, token) => {
 export const createReply = (content, parentId, token) => {
   return async (dispatch) => {
     commentService.setToken(token);
-    const repliedCommentTopLevel = await commentService.createReply(content, parentId);
-    dispatch(updateComment(repliedCommentTopLevel));
-  }
-}
-
-export const deleteComment = (comment, token) => {
-  return async (dispatch) => {
-    commentService.setToken(token);
-    const response = await commentService.deleteComment(comment._id);
-
-    // If response is received, it is the parent of the deleted reply
-    if (response)
-      dispatch(updateComment(response));
-    else
-      dispatch(updateDeleted(comment));
+    const { newReply, parentComment } = await commentService.createReply(content, parentId);
+    dispatch(appendComment(newReply));
+    dispatch(updateComment(parentComment));
   }
 }
 
@@ -80,6 +68,27 @@ export const editComment = (comment, updatedFields, token) => {
     dispatch(updateComment(updatedComment));
   }
 }
+
+export const deleteComment = (comment, token) => {
+  return async (dispatch) => {
+    commentService.setToken(token);
+    const deletedComment = await commentService.deleteComment(comment._id);
+
+    dispatch(updateDeleted(deletedComment));
+  }
+}
+
+export const deleteReply = (comment, token) => {
+  return async (dispatch) => {
+    commentService.setToken(token);
+    const { deletedComment, parentComment } = await commentService.deleteReply(comment._id);
+
+    dispatch(updateComment(parentComment))
+    dispatch(updateDeleted(deletedComment));
+  }
+}
+
+
 
 export const { 
   setComments,

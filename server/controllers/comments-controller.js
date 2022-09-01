@@ -1,153 +1,128 @@
 const Comment = require('../models/comment-model');
+const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 
-exports.getAll = async (req, res) => {
-  try {
-    const comments = await Comment
-      .find({ replyingTo: { $eq: null } })
+exports.getAll = catchAsync(async (req, res, next) => {
+  const comments = await Comment.find({})
+    .populate('user');
 
-    res.status(200).json({
-      status: 'success',
-      results: comments.length,
-      comments,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
-    });
-  }
-}
-
-exports.getComment = async (req, res) => {
-  try {
-    const comment = await Comment
-      .findById(req.params.id)
-      .populate({
-        path: 'replies',
-        populate: { path: 'replies' }
-      });
-
-      res.status(200).json({
-      status: 'success',
-      comment
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
-    });
-  }
-}
+  res.status(200).json({
+    status: 'success',
+    results: comments.length,
+    comments,
+  });
+});
 
 
-exports.createComment = async (req, res) => {
-  try {
-    const user = req.user;
-    const newComment = await Comment.create({
-      ...req.body,
-      user
+exports.getComment = catchAsync(async (req, res, next) => {
+  const comment = await Comment
+    .findById(req.params.id)
+    .populate({
+      path: 'replies',
+      populate: { path: 'replies' }
     });
 
-    newComment.topLevelComment = newComment._id;
-    newComment.save();
+  if (!comment)
+    return next(new AppError('The requested comment was not found', 404));
+
+  res.status(200).json({
+  status: 'success',
+  comment
+  });
+});
+
+
+exports.createComment = catchAsync(async (req, res, next) => {
+  const user = req.user;
+  const newComment = await Comment.create({
+    ...req.body,
+    user
+  });
+
+  res.status(201).json({
+    status: 'success',
+    newComment,
+  });
+});
+
+
+exports.createReply = catchAsync(async (req, res, next) => {
+  const user = req.user;
+  const parentComment = await Comment
+    .findById(req.params.id)
+    .populate({ 
+      path: 'user',
+      select: '-__v' 
+    });
+
+  if (!parentComment)
+    return next(new AppError('Parent comment not found', 404));
+
+  const newReply = await Comment.create({
+    ...req.body,
+    replyingTo: parentComment._id,
+    user,
+  });
+
+  // Add reply to replied to comment and return top level comment
+  if (newReply) {
+    parentComment.replies = parentComment.replies.concat(newReply._id);
+    await parentComment.save();
+
 
     res.status(201).json({
       status: 'success',
-      newComment,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
+      newReply,
+      parentComment,
     });
   }
-}
+});
 
 
-exports.createReply = async (req, res) => {
-  try {
-    const user = req.user;
-    const parentComment = await Comment
-      .findById(req.params.id)
-      .populate({ 
-        path: 'user',
-        select: '-__v' 
-      });
+exports.deleteComment = catchAsync(async (req, res, next) => {
+  const deletedComment = await Comment.findByIdAndDelete(req.params.id);
 
-    const newReply = await Comment.create({
-      ...req.body,
-      replyingTo: parentComment._id,
-      topLevelComment: parentComment.topLevelComment,
-      user,
-    });
+  if (!deletedComment)
+    return next(new AppError('Comment to be deleted could not be found', 404));
 
-    // Add reply to replied to comment and return top level comment
-    if (newReply) {
-      parentComment.replies = parentComment.replies.concat(newReply);
-      await parentComment.save();
+  // Return parent document if deleted comment is a reply
+  if (deletedComment.replyingTo) {
+    const parentComment = await Comment.findById(deletedComment.replyingTo);
 
-      const topLevelComment = await Comment.findById(newReply.topLevelComment);
+    if (!parentComment)
+      return next(new AppError('Parent of deleted comment could not be found', 404));
 
-      res.status(201).json({
-        status: 'success',
-        repliedCommentTopLevel: topLevelComment,
-      });
-    }
+    parentComment.replies = parentComment.replies.filter(reply => reply.toString() !== deletedComment._id.toString());
+    await parentComment.save();
 
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
+    return res.status(200).json({
+      status: 'success',
+      deletedComment,
+      parentComment
     });
   }
-}
+  
+  return res.status(200).json({
+    status: 'success',
+    deletedComment
+  });
+});
 
-
-exports.deleteComment = async (req, res) => {
-  try {
-    const commentToDelete = await Comment.findByIdAndDelete(req.params.id);
-
-    // Return parent document if deleted comment is a reply
-    if (commentToDelete.replyingTo) {
-      const topLevelComment = await Comment.findById(commentToDelete.topLevelComment);
-
-      return res.status(200).json({
-        status: 'success',
-        deletedCommentTopLevel: topLevelComment,
-      });
-    }
-    
-    return res.status(204).end();
-
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message,
-    });
-  }
-}
 
 // Used for editing/liking a comment
-exports.updateComment = async (req, res) => {
-  try {
-    const updatedComment = await Comment.findByIdAndUpdate(req.params.id, {
-      ...req.body,
-    }, {
-      new: true,
-      runValidators: true,
-    });
+exports.updateComment = catchAsync(async (req, res, next) => {
+  const updatedComment = await Comment.findByIdAndUpdate(req.params.id, {
+    ...req.body,
+  }, {
+    new: true,
+    runValidators: true,
+  });
 
-    const topLevelComment = await Comment.findById(updatedComment.topLevelComment);
+  if (!updatedComment)
+    return next(new AppError('Comment to be updated could not be found', 404));
 
-    res.status(200).json({
-      status: 'success',
-      updatedCommentTopLevel: topLevelComment
-    });
-
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message,
-    });
-  }
-}
+  res.status(200).json({
+    status: 'success',
+    updatedComment
+  });
+});

@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle, css } from "styled-components";
+import { createGlobalStyle, css } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`  
   * {
@@ -123,6 +123,10 @@ export const Modal = css`
     padding: 0.6rem;
     border: 1px solid hsl(211, 10%, 45%);
     border-radius: 5px;
+
+    &:focus {
+      outline: 1px solid hsl(238, 40%, 52%);
+    }
   }
 
   button {

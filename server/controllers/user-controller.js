@@ -1,24 +1,23 @@
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
 const User = require('../models/user-model');
+const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 
-exports.createUser = async (req, res) => {
-  try {
-    const newUser = await User.create(req.body);
+exports.createUser = catchAsync(async (req, res, next) => {
+  const newUser = await User.create(req.body);
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
 
-    console.log(newUser)
-    res.status(201).json({
-      status: 'success',
-      token,
-      user: newUser,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
-    });
-  }
-}
+  if (!newUser || !token)
+    return next(new AppError('User could not be created', 400));
+
+  res.status(201).json({
+    status: 'success',
+    token,
+    scoredComments: [],
+    user: newUser,
+  });
+});

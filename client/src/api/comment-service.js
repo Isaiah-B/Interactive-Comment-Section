@@ -33,7 +33,8 @@ const createReply = async (content, parentId) => {
   }
 
   const res = await axios.post(`${baseUrl}/${parentId}`, { content }, config);
-  return res.data.repliedCommentTopLevel;
+  const { newReply, parentComment } = res.data;
+  return { newReply, parentComment }
 }
 
 const updateComment = async (commentId, updatedFields) => {
@@ -42,7 +43,7 @@ const updateComment = async (commentId, updatedFields) => {
   }
 
   const res = await axios.patch(`${baseUrl}/${commentId}`, updatedFields, config);
-  return res.data.updatedCommentTopLevel;
+  return res.data.updatedComment;
 }
 
 const deleteComment = async (commentId) => {
@@ -51,8 +52,19 @@ const deleteComment = async (commentId) => {
   }
 
   const res = await axios.delete(`${baseUrl}/${commentId}`, config);
-  if (res.data.deletedCommentTopLevel) 
-    return res.data.deletedCommentTopLevel;
+  return res.data.deletedComment;
+}
+
+const deleteReply = async (commentId) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+
+  const res = await axios.delete(`${baseUrl}/${commentId}`, config);
+  console.log(res.data)
+  const { deletedComment, parentComment } = res.data;
+
+  return { deletedComment, parentComment };
 }
 
 export default {
@@ -62,5 +74,6 @@ export default {
   createComment,
   createReply,
   updateComment,
-  deleteComment
+  deleteComment,
+  deleteReply
 }

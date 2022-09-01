@@ -5,6 +5,10 @@ export const Container = styled.div`
   padding: 4rem 0;
   width: 73rem;
   height: 100%;
+
+  @media (max-width: 49em) {
+    width: 95%;
+  }
 `
 
 export const Main = styled.main`

@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 
 import { UserContext } from "../../context/user.context";
-import { createReply, deleteComment, editComment } from "../../reducers/comment-reducer";
+import { createReply, deleteComment, deleteReply, editComment } from "../../reducers/comment-reducer";
 
 import CommentBoxHeader from "../comment-box-header/comment-box-header";
 import CommentScore from "../comment-score/comment-score";
@@ -11,7 +11,6 @@ import UserReplyBox from '../user-reply-box/user-reply-box';
 
 import {
   CommentBoxContainer,
-  Content,
   ContentBottom,
   EditTextArea,
   UpdateBtnWrapper,
@@ -39,8 +38,12 @@ const CommentBox = ({ comment  }) => {
   }
 
   const handleDeleteChoice = (choice) => {
-    if (choice)
-      dispatch(deleteComment(comment, currentUser.token));
+    if (choice) {
+      if (comment.replyingTo)
+        dispatch(deleteReply(comment, currentUser.token));
+      else
+        dispatch(deleteComment(comment, currentUser.token));
+    }
     else
       setDeleteModalOpen(false);    
       return;
@@ -63,11 +66,13 @@ const CommentBox = ({ comment  }) => {
   }
 
   const incrementScore = () => {
-    dispatch(editComment(comment, { score: comment.score + 1 }, currentUser.token));
+    if (comment.user._id !== currentUser.id)
+      dispatch(editComment(comment, { score: comment.score + 1 }, currentUser.token));
   }
 
   const decrementScore = () => {
-    dispatch(editComment(comment, { score: comment.score - 1 }, currentUser.token));
+    if (comment.user._id !== currentUser.id)
+      dispatch(editComment(comment, { score: comment.score - 1 }, currentUser.token));
   }
 
 
@@ -82,39 +87,36 @@ const CommentBox = ({ comment  }) => {
         handleClickPlus={incrementScore} 
         handleClickMinus={decrementScore}
       />
-      <Content>
-        <CommentBoxHeader 
-          name={comment.user.username} 
-          image={comment.user.image.png} 
-          timePosted={formattedDate}
-          isUser={currentUser ? currentUser.id === comment.user._id : false}
-          handleClickReply={() => setReplyOpen(!replyOpen)}
-          handleClickDelete={() => setDeleteModalOpen(true)}
-          handleClickEdit={() => setIsEditing(!isEditing)}
-        />
-        <ContentBottom>
-          { !isEditing && <p dangerouslySetInnerHTML={{__html: highlightMention(comment.content)}}></p>}
+      <CommentBoxHeader 
+        name={comment.user.username} 
+        image={comment.user.image.png} 
+        timePosted={formattedDate}
+        isUser={currentUser ? currentUser.id === comment.user._id : false}
+        handleClickReply={() => setReplyOpen(!replyOpen)}
+        handleClickDelete={() => setDeleteModalOpen(true)}
+        handleClickEdit={() => setIsEditing(!isEditing)}
+      />
+      <ContentBottom>
+        { !isEditing && <p dangerouslySetInnerHTML={{__html: highlightMention(comment.content)}}></p>}
 
-          { isEditing && 
-            <EditTextArea 
-              defaultValue={comment.content}
-              onChange={({target}) => setEditInput(target.value)}
-              ></EditTextArea>
-          }
+        { isEditing && 
+        <>
+          <EditTextArea 
+            defaultValue={comment.content}
+            onChange={({target}) => setEditInput(target.value)}
+            ></EditTextArea>
 
-          { isEditing &&
-            <UpdateBtnWrapper>
-              <UpdateBtn onClick={handleUpdateComment}>Update</UpdateBtn>
-            </UpdateBtnWrapper> 
-          }
-        </ContentBottom>
-      </Content>
+          <UpdateBtnWrapper>
+            <UpdateBtn onClick={handleUpdateComment}>Update</UpdateBtn>
+          </UpdateBtnWrapper> 
+        </>
+        }
+      </ContentBottom>
     </CommentBoxContainer>
 
 
       { replyOpen && 
         <UserReplyBox
-          image={comment.user.image}
           repliedUser={comment.user.username}
           handleCreateReply={handleCreateReply}
         /> 

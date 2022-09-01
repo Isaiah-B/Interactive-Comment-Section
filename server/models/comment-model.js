@@ -24,7 +24,7 @@ const commentSchema = new mongoose.Schema({
   ],
 
   replyingTo: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     default: null
   },
 
@@ -40,11 +40,21 @@ const commentSchema = new mongoose.Schema({
   }
 });
 
+// Populate replies and user for document and its subdocuments
 function autoPopulateReplies(next) {
-  this.populate(['replies', 'user']);
+  this.populate(['user']);
   next();
 }
 
 commentSchema.pre(/^find/, autoPopulateReplies);
 
+commentSchema.pre('save', function (next) {
+  this.populate('user');
+  next();
+})
+
+// commentSchema.pre('update', function (next) {
+//   this.populate('user');
+//   next();
+// })
 module.exports = mongoose.model('Comment', commentSchema);

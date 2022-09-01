@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 export const UserContext = createContext({
   currentUser: {},
-  setCurrentUser: () => {}
+  setCurrentUser: () => {},
 });
 
 export const UserProvider = ({ children }) => {
@@ -11,7 +11,8 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     if (localStorage.getItem('user'))
       setCurrentUser(JSON.parse(localStorage.getItem('user')));
-  }, [])
+  }, []);
+
 
   const value = { currentUser, setCurrentUser };
 

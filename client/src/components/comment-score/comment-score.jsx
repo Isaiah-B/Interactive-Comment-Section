@@ -8,7 +8,7 @@ import {
 
 const CommentScore = ({ score, handleClickPlus, handleClickMinus }) => {
   return (
-    <ScoreContainer className="score-container">
+    <ScoreContainer>
     <BtnScore onClick={handleClickPlus} aria-label="Like comment">
       <IconPlus />
     </BtnScore>

@@ -15,6 +15,10 @@ export const DeleteModalContainer = styled.div`
   align-items: flex-start;
   gap: 2rem;
   width: 40rem;
+
+  @media (max-width: 33em) {
+    width: 35rem;
+  }
 `
 
 export const DeleteModalBtnContainer = styled.div`
@@ -22,6 +26,12 @@ export const DeleteModalBtnContainer = styled.div`
   justify-content: center;
   width: 100%;
   gap: 1.4rem;
+
+  @media (max-width: 33em) {
+    button {
+      padding: 1.4rem 1rem;
+    }
+  }
 `
 
 export const DeleteSubmitYes = styled.button`

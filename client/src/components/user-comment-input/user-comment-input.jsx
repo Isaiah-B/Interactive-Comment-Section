@@ -11,7 +11,7 @@ import {
   NewUserCommentBox
 } from "./user-comment-input.styles";
 
-const UserCommentInput = ({ image }) => {
+const UserCommentInput = () => {
   const [commentInput, setCommentInput] = useState('');
   const { currentUser } = useContext(UserContext);
 
@@ -24,15 +24,14 @@ const UserCommentInput = ({ image }) => {
 
   return (
     <NewUserCommentBox>
-      <NewCommentImg src={image} alt="" />
+      <NewCommentImg src={currentUser.image} alt={`${currentUser.name}`} />
       <UserCommentTextArea 
-        className="new-comment-textarea" 
         rows="4" 
         placeholder="Add a comment..."
         value={commentInput}
         onChange={({target}) => setCommentInput(target.value)}>
       </UserCommentTextArea>
-      <UserCommentButton className="btn" onClick={handleSubmitComment}>Send</UserCommentButton>
+      <UserCommentButton onClick={handleSubmitComment}>Send</UserCommentButton>
     </NewUserCommentBox>
   )
 }
