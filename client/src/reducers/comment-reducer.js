@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 import commentService from "../api/comment-service";
 
@@ -19,9 +19,24 @@ const commentSlice = createSlice({
         comment._id === updatedComment._id ? updatedComment : comment
       ));
     },
+    updateParent(state, action) {
+      const {deletedCommentId, parentId} = action.payload;
+
+      const parentComment = current(state).find(comment => {
+       return comment._id === parentId
+      });
+    
+      const parentCopy = Object.assign({}, parentComment);
+
+      parentCopy.replies = parentComment.replies.filter(replyId => replyId !== deletedCommentId);
+
+      return state.map(comment => (
+        comment._id === parentId ? parentCopy : comment)
+      )
+    },
     updateDeleted(state, action) {
       const deletedComment = action.payload;
-
+      
       return state.filter(comment => (
         comment._id !== deletedComment._id
       ));
@@ -72,21 +87,15 @@ export const editComment = (comment, updatedFields, token) => {
 export const deleteComment = (comment, token) => {
   return async (dispatch) => {
     commentService.setToken(token);
-    const deletedComment = await commentService.deleteComment(comment._id);
+    dispatch(updateDeleted(comment));
 
-    dispatch(updateDeleted(deletedComment));
+    if (comment.replyingTo)
+      dispatch(updateParent({ deletedCommentId: comment._id, parentId: comment.replyingTo }))
+      
+    await commentService.deleteComment(comment._id);
   }
 }
 
-export const deleteReply = (comment, token) => {
-  return async (dispatch) => {
-    commentService.setToken(token);
-    const { deletedComment, parentComment } = await commentService.deleteReply(comment._id);
-
-    dispatch(updateComment(parentComment))
-    dispatch(updateDeleted(deletedComment));
-  }
-}
 
 
 
@@ -94,6 +103,7 @@ export const {
   setComments,
   appendComment,
   updateComment,
+  updateParent,
   updateDeleted
 } = commentSlice.actions;
 

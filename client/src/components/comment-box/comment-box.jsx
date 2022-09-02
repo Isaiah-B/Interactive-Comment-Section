@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 import { UserContext } from "../../context/user.context";
-import { createReply, deleteComment, deleteReply, editComment } from "../../reducers/comment-reducer";
+import { createReply, deleteComment, editComment } from "../../reducers/comment-reducer";
 
 import CommentBoxHeader from "../comment-box-header/comment-box-header";
 import CommentScore from "../comment-score/comment-score";
@@ -26,7 +26,7 @@ const CommentBox = ({ comment  }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   
   const { currentUser } = useContext(UserContext);
-  
+
   const date = new Date(comment.createdAt);
   const formattedDate = date.toLocaleString().split(', ').join(' ');
 
@@ -40,7 +40,7 @@ const CommentBox = ({ comment  }) => {
   const handleDeleteChoice = (choice) => {
     if (choice) {
       if (comment.replyingTo)
-        dispatch(deleteReply(comment, currentUser.token));
+        dispatch(deleteComment(comment, currentUser.token));
       else
         dispatch(deleteComment(comment, currentUser.token));
     }

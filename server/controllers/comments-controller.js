@@ -95,17 +95,18 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
     parentComment.replies = parentComment.replies.filter(reply => reply.toString() !== deletedComment._id.toString());
     await parentComment.save();
 
-    return res.status(200).json({
-      status: 'success',
-      deletedComment,
-      parentComment
-    });
+    // return res.status(200).json({
+    //   status: 'success',
+    //   deletedComment,
+    //   parentComment
+    // });
   }
   
-  return res.status(200).json({
-    status: 'success',
-    deletedComment
-  });
+  res.status(204).end();
+  // return res.status(200).json({
+  //   status: 'success',
+  //   deletedComment
+  // });
 });
 
 

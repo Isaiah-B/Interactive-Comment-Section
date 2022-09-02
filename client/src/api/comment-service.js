@@ -51,8 +51,7 @@ const deleteComment = async (commentId) => {
     headers: { Authorization: token }
   }
 
-  const res = await axios.delete(`${baseUrl}/${commentId}`, config);
-  return res.data.deletedComment;
+  await axios.delete(`${baseUrl}/${commentId}`, config);
 }
 
 const deleteReply = async (commentId) => {
