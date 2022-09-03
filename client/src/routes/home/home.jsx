@@ -1,71 +1,75 @@
-import { useContext, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import userService from '../../api/user-service';
-import { UserContext } from "../../context/user.context";
-import { initializeComments } from "../../reducers/comment-reducer";
+import { UserContext } from '../../context/user.context';
+import { initializeComments } from '../../reducers/comment-reducer';
 
-import CreateUserModal from "../../components/create-user-modal/create-user-modal";
-import UserCommentInput from "../../components/user-comment-input/user-comment-input";
-import CommentWrapper from "../../components/comment-wrapper/comment-wrapper";
+import CreateUserModal from '../../components/create-user-modal/create-user-modal';
+import UserCommentInput from '../../components/user-comment-input/user-comment-input';
+import CommentWrapper from '../../components/comment-wrapper/comment-wrapper';
 
-import { Container, Main, SectionComments } from "./home.styles";
+import { Container, Main, SectionComments } from './home.styles';
 
-const Home = () => {
+function Home() {
   const dispatch = useDispatch();
 
-  const comments = useSelector(state => state.comments.filter(comment => comment.replyingTo === null));
+  const comments = useSelector(
+    (state) => state.comments.filter(
+      (comment) => comment.replyingTo === null,
+    ),
+  );
+
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  
+
   useEffect(() => {
     dispatch(initializeComments());
   }, []);
 
-
   const createUser = async (event, username) => {
     event.preventDefault();
     const { token, user } = await userService.createUser(username);
-    
+
     const newUser = {
       id: user._id,
       username: user.username,
       image: user.image.png,
-      token
-    }
+      token,
+    };
 
     setCurrentUser(newUser);
     localStorage.setItem('user', JSON.stringify(newUser));
-  }
+  };
 
-  if (!comments) return null;
+  if (!comments)
+    return null;
 
   return (
     <>
-    { !currentUser && <CreateUserModal handleCreateUser={createUser} /> }
-    <Container>
-      <Main>
-        <SectionComments>
-          {
-            comments &&
-            comments.map(comment => (
-              <CommentWrapper 
+      { !currentUser && <CreateUserModal handleCreateUser={createUser} /> }
+      <Container>
+        <Main>
+          <SectionComments>
+            {
+            comments
+            && comments.map((comment) => (
+              <CommentWrapper
                 key={comment._id}
                 comment={comment}
                 layer={0}
               />
             ))
           }
-        </SectionComments>
+          </SectionComments>
 
-      <section>
-        { currentUser && 
-          <UserCommentInput /> 
-        }
-      </section>
-      </Main>
-    </Container>
-  </>
-  )
+          <section>
+            { currentUser
+          && <UserCommentInput />}
+          </section>
+        </Main>
+      </Container>
+    </>
+  );
 }
 
 export default Home;

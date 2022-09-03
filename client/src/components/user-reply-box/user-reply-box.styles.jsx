@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { TextArea, Button, NewCommentBox } from "../../index.styles";
+import { TextArea, Button, NewCommentBox } from '../../index.styles';
 
 export const UserReplyBoxContainer = styled.div`
   ${NewCommentBox}
@@ -12,7 +12,7 @@ export const UserReplyBoxContainer = styled.div`
 
     padding: 1.6rem;
   }
-`
+`;
 
 export const UserReplyImg = styled.img`
   height: 3.8rem;
@@ -20,7 +20,7 @@ export const UserReplyImg = styled.img`
   @media (max-width: 33em) {
     grid-row: 2;
   }
-`
+`;
 
 export const UserReplyTextArea = styled.textarea`
   ${TextArea};
@@ -29,7 +29,7 @@ export const UserReplyTextArea = styled.textarea`
     grid-row: 1;
     grid-column: 1 / -1;
   }
-`
+`;
 
 export const UserReplyButton = styled.button`
   ${Button};
@@ -39,4 +39,4 @@ export const UserReplyButton = styled.button`
     width: 10rem;
     justify-self: end;
   }
-`
+`;

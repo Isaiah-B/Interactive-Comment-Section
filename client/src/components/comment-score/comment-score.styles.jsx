@@ -13,15 +13,15 @@ export const ScoreContainer = styled.div`
   padding: 0.6rem 1rem;
   border-radius: 9px;
   background-color: hsl(228, 33%, 97%);
-`
+`;
 
 export const IconPlus = styled(IconPlusSvg)`
   fill: #C5C6EF;
-`
+`;
 
 export const IconMinus = styled(IconMinusSvg)`
   fill: #C5C6EF;
-`
+`;
 
 export const BtnScore = styled.button`
   display: flex;
@@ -40,10 +40,10 @@ export const BtnScore = styled.button`
   &:hover ${IconMinus} {
     fill: hsl(238, 40%, 52%);
   }
-`
+`;
 
 export const Score = styled.span`
   font-size: 1.6rem;
   font-weight: 500;
   color: hsl(238, 40%, 52%);
-`
+`;

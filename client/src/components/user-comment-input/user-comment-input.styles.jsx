@@ -12,7 +12,7 @@ export const NewUserCommentBox = styled.div`
 
     padding: 1.6rem;
   }
-`
+`;
 
 export const NewCommentImg = styled.img`
   height: 3.8rem;
@@ -20,7 +20,7 @@ export const NewCommentImg = styled.img`
   @media (max-width: 33em) {
     grid-row: 2;
   }
-`
+`;
 
 export const UserCommentTextArea = styled.textarea`
   ${TextArea}
@@ -29,7 +29,7 @@ export const UserCommentTextArea = styled.textarea`
     grid-row: 1;
     grid-column: 1 / -1;
   }
-`
+`;
 
 export const UserCommentButton = styled.button`
   ${Button}
@@ -39,4 +39,4 @@ export const UserCommentButton = styled.button`
     width: 10rem;
     justify-self: end;
   }
-`
+`;

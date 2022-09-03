@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
   margin: 0 auto;
@@ -9,17 +9,17 @@ export const Container = styled.div`
   @media (max-width: 49em) {
     width: 95%;
   }
-`
+`;
 
 export const Main = styled.main`
   display: flex;
   flex-direction: column;
   gap: 2rem;
   height: 100%;
-`
+`;
 
 export const SectionComments = styled.section`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-`
+`;

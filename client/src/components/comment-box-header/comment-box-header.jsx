@@ -5,34 +5,33 @@ import {
   TimePosted,
   ButtonsContainer,
   BtnBlue,
-  BtnRed
+  BtnRed,
 } from './comment-box-header.styles';
 
-const UserPostActions = ({ onClickDelete, onClickEdit }) => {
+function UserPostActions({ onClickDelete, onClickEdit }) {
   return (
     <>
       <BtnRed onClick={onClickDelete}>
-        <img src="images/icon-delete.svg" alt="" aria-hidden/>
+        <img src="images/icon-delete.svg" alt="" aria-hidden />
         <span>Delete</span>
       </BtnRed>
       <BtnBlue onClick={onClickEdit}>
-        <img src="images/icon-edit.svg" alt="" aria-hidden/>
+        <img src="images/icon-edit.svg" alt="" aria-hidden />
         <span>Edit</span>
       </BtnBlue>
     </>
-  )
+  );
 }
 
-const CommentBoxHeader = ({ 
-  name, 
-  image, 
-  timePosted, 
-  isUser, 
-  handleClickReply, 
-  handleClickDelete, 
-  handleClickEdit 
-}) => {
-
+function CommentBoxHeader({
+  name,
+  image,
+  timePosted,
+  isUser,
+  handleClickReply,
+  handleClickDelete,
+  handleClickEdit,
+}) {
   const getTimeSincePosted = () => {
     const createdAtTimestamp = new Date(timePosted).getTime();
     const timeDiff = Date.now() - createdAtTimestamp;
@@ -40,7 +39,7 @@ const CommentBoxHeader = ({
     let timeSinceCreated;
     let converted;
 
-    switch(true) {
+    switch (true) {
       case (timeDiff < 3600000):
         timeSinceCreated = Math.floor((timeDiff / 1000) / 60);
         converted = `${timeSinceCreated} minutes ago`;
@@ -62,35 +61,36 @@ const CommentBoxHeader = ({
         converted = `${timeSinceCreated} months ago`;
         break;
       default:
-        console.log('There was a problem converting the time')
+        console.log('There was a problem converting the time');
     }
 
     return converted;
-  }
+  };
 
   const timeSincePosted = getTimeSincePosted();
-  
-return (  
-  <>
-    <ContentTopInfo>
-      <img src={image} alt={name}/>
-      <Username>{name}</Username>
-      { isUser && <UserTag>you</UserTag> }
-      <TimePosted>{timeSincePosted}</TimePosted>
-    </ContentTopInfo>
-    <ButtonsContainer>
-      {
+
+  return (
+    <>
+      <ContentTopInfo>
+        <img src={image} alt={name} />
+        <Username>{name}</Username>
+        { isUser && <UserTag>you</UserTag> }
+        <TimePosted>{timeSincePosted}</TimePosted>
+      </ContentTopInfo>
+      <ButtonsContainer>
+        {
         isUser
-          ? <UserPostActions onClickDelete={handleClickDelete} onClickEdit={handleClickEdit}/>
-          : 
-          <BtnBlue onClick={handleClickReply}>
-            <img src="images/icon-reply.svg" alt="" aria-hidden/>
-            <span>Reply</span>
-          </BtnBlue>
+          ? <UserPostActions onClickDelete={handleClickDelete} onClickEdit={handleClickEdit} />
+          : (
+            <BtnBlue onClick={handleClickReply}>
+              <img src="images/icon-reply.svg" alt="" aria-hidden />
+              <span>Reply</span>
+            </BtnBlue>
+          )
       }
-    </ButtonsContainer>
-  </>
-  )
+      </ButtonsContainer>
+    </>
+  );
 }
 
 export default CommentBoxHeader;

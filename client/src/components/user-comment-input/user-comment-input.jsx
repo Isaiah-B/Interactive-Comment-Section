@@ -1,17 +1,17 @@
-import { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { UserContext } from "../../context/user.context";
-import { createComment } from "../../reducers/comment-reducer";
+import { UserContext } from '../../context/user.context';
+import { createComment } from '../../reducers/comment-reducer';
 
-import { 
-  NewCommentImg, 
-  UserCommentTextArea, 
+import {
+  NewCommentImg,
+  UserCommentTextArea,
   UserCommentButton,
-  NewUserCommentBox
-} from "./user-comment-input.styles";
+  NewUserCommentBox,
+} from './user-comment-input.styles';
 
-const UserCommentInput = () => {
+function UserCommentInput() {
   const [commentInput, setCommentInput] = useState('');
   const { currentUser } = useContext(UserContext);
 
@@ -20,20 +20,20 @@ const UserCommentInput = () => {
   const handleSubmitComment = () => {
     dispatch(createComment(commentInput, currentUser.token));
     setCommentInput('');
-  }
+  };
 
   return (
     <NewUserCommentBox>
       <NewCommentImg src={currentUser.image} alt={`${currentUser.name}`} />
-      <UserCommentTextArea 
-        rows="4" 
+      <UserCommentTextArea
+        rows="4"
         placeholder="Add a comment..."
         value={commentInput}
-        onChange={({target}) => setCommentInput(target.value)}>
-      </UserCommentTextArea>
+        onChange={({ target }) => setCommentInput(target.value)}
+      />
       <UserCommentButton onClick={handleSubmitComment}>Send</UserCommentButton>
     </NewUserCommentBox>
-  )
+  );
 }
 
 export default UserCommentInput;

@@ -1,4 +1,6 @@
-import { createContext, useEffect, useState } from 'react';
+import {
+  useMemo, createContext, useEffect, useState,
+} from 'react';
 
 export const UserContext = createContext({
   currentUser: {},
@@ -13,7 +15,7 @@ export function UserProvider({ children }) {
       setCurrentUser(JSON.parse(localStorage.getItem('user')));
   }, []);
 
-  const value = { currentUser, setCurrentUser };
+  const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

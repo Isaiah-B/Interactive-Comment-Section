@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Box, Button, TextArea } from '../../index.styles';
-import { ButtonsContainer, ContentTopInfo} from '../comment-box-header/comment-box-header.styles';
+import { ButtonsContainer, ContentTopInfo } from '../comment-box-header/comment-box-header.styles';
 import { ScoreContainer } from '../comment-score/comment-score.styles';
 
 export const CommentBoxContainer = styled.div`
@@ -67,7 +67,7 @@ export const CommentBoxContainer = styled.div`
       align-self: center;
     }
   }
-`
+`;
 
 export const Content = styled.div`
   display: flex;
@@ -78,22 +78,21 @@ export const Content = styled.div`
   @media (max-width: 33em) {
     grid-row: 2 / 3;
   } 
-`
+`;
 
 export const ContentTop = styled.div`
   display: flex;
   justify-content: space-between;
-`
-
+`;
 
 export const Username = styled.span`
   font-weight: 500;
   color: hsl(212, 24%, 26%);
-`
+`;
 
 export const TimePosted = styled.span`
   color: hsl(211, 10%, 45%);
-`
+`;
 
 export const BtnReply = styled.button`
   display: flex;
@@ -110,7 +109,7 @@ export const BtnReply = styled.button`
   &:hover {
     opacity: 0.5;
   }
-`
+`;
 
 export const ContentBottom = styled.div`
   display: flex;
@@ -127,19 +126,18 @@ export const ContentBottom = styled.div`
     grid-row: 2;
     grid-column: 1 / -1;
   }
-`
+`;
 
 export const EditTextArea = styled.textarea`
   ${TextArea};
-`
+`;
 
 export const UpdateBtnWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
-`
+`;
 
 export const UpdateBtn = styled.button`
   ${Button};
-`
-
+`;

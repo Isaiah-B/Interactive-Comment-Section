@@ -1,19 +1,19 @@
-import { 
+import {
   DeleteModalBg,
   DeleteModalContainer,
   DeleteModalBtnContainer,
   DeleteSubmitYes,
-  DeleteSubmitNo
+  DeleteSubmitNo,
 } from './confirm-delete-modal.styles';
 
-const ConfirmDeleteModal = ({ returnResult }) => {
-
+function ConfirmDeleteModal({ returnResult }) {
   return (
     <DeleteModalBg>
       <DeleteModalContainer>
         <h2>Delete Comment</h2>
-        <p>Are you sure you want to delete this comment? This will remove 
-          the comment and can't be undone.
+        <p>
+          Are you sure you want to delete this comment? This will remove
+          the comment and can&apos;t be undone.
         </p>
         <DeleteModalBtnContainer>
           <DeleteSubmitNo onClick={() => returnResult(false)}>No, cancel</DeleteSubmitNo>
@@ -21,7 +21,7 @@ const ConfirmDeleteModal = ({ returnResult }) => {
         </DeleteModalBtnContainer>
       </DeleteModalContainer>
     </DeleteModalBg>
-  )
+  );
 }
 
 export default ConfirmDeleteModal;

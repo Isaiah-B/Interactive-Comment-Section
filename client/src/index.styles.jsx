@@ -80,7 +80,7 @@ export const ModalBg = css`
 
   &::before {
     content: '';
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     right: 0;
@@ -92,7 +92,7 @@ export const ModalBg = css`
 export const Modal = css`
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
   gap: 1rem;
   left: 50%;
   top: 50%;

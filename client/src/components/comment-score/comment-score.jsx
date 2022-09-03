@@ -3,23 +3,23 @@ import {
   IconPlus,
   IconMinus,
   BtnScore,
-  Score
+  Score,
 } from './comment-score.styles';
 
-const CommentScore = ({ score, handleClickPlus, handleClickMinus }) => {
+function CommentScore({ score, handleClickPlus, handleClickMinus }) {
   return (
     <ScoreContainer>
-    <BtnScore onClick={handleClickPlus} aria-label="Like comment">
-      <IconPlus />
-    </BtnScore>
+      <BtnScore onClick={handleClickPlus} aria-label="Like comment">
+        <IconPlus />
+      </BtnScore>
 
-    <Score>{score}</Score>
-    
-    <BtnScore onClick={handleClickMinus} aria-label="Dislike comment">
-      <IconMinus />
-    </BtnScore>
-  </ScoreContainer>
-  )
+      <Score>{score}</Score>
+
+      <BtnScore onClick={handleClickMinus} aria-label="Dislike comment">
+        <IconMinus />
+      </BtnScore>
+    </ScoreContainer>
+  );
 }
 
 export default CommentScore;

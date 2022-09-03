@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const CommentWrapperContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 2rem;
-`
+`;
 
 export const Replies = styled.div`
   display: flex;
@@ -19,4 +19,4 @@ export const Replies = styled.div`
     width: 100%;
     padding-left: 1.6rem;
   }
-`
+`;

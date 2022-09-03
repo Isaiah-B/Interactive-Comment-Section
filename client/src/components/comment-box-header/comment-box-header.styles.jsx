@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ContentTop = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 
 export const ContentTopInfo = styled.div`
   display: flex;
@@ -14,12 +14,12 @@ export const ContentTopInfo = styled.div`
     height: 3.2rem;
     width: 3.2rem;
   }
-`
+`;
 
 export const Username = styled.span`
   font-weight: 500;
   color: hsl(212, 24%, 26%);
-`
+`;
 
 export const UserTag = styled.span`
   display: flex;
@@ -31,16 +31,16 @@ export const UserTag = styled.span`
   font-size: 1.4rem;
   color: hsl(0, 0%, 100%);
   background-color: hsl(238, 40%, 52%);
-`
+`;
 
 export const TimePosted = styled.span`
   color: hsl(211, 10%, 45%);
-`
+`;
 
 export const ButtonsContainer = styled.div`
   display: flex;
   gap: 2.6rem;
-`
+`;
 
 const CommentActionButton = styled.button`
   display: flex;
@@ -56,11 +56,11 @@ const CommentActionButton = styled.button`
   &:hover {
     opacity: 0.5;
   }  
-`
+`;
 export const BtnBlue = styled(CommentActionButton)`
   color: hsl(238, 40%, 52%);
-`
+`;
 
 export const BtnRed = styled(CommentActionButton)`
   color: hsl(358, 79%, 66%);
-`
+`;

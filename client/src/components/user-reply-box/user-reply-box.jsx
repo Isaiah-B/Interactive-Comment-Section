@@ -1,21 +1,21 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../../context/user.context";
+import { useContext, useState } from 'react';
+import { UserContext } from '../../context/user.context';
 
 import {
   UserReplyBoxContainer,
   UserReplyImg,
   UserReplyTextArea,
-  UserReplyButton
+  UserReplyButton,
 } from './user-reply-box.styles';
 
-const UserReplyBox = ({ repliedUser, handleCreateReply }) => {
+function UserReplyBox({ repliedUser, handleCreateReply }) {
   const [replyInput, setReplyInput] = useState(`@${repliedUser.split(' ').join('')} `);
   const { currentUser } = useContext(UserContext);
 
   const handleSubmitReply = () => {
     handleCreateReply(replyInput);
     setReplyInput('');
-  }
+  };
 
   return (
     <UserReplyBoxContainer>
@@ -23,11 +23,11 @@ const UserReplyBox = ({ repliedUser, handleCreateReply }) => {
       <UserReplyTextArea
         rows="4"
         value={replyInput}
-        onChange={({target}) => setReplyInput(target.value)}>
-      </UserReplyTextArea>
+        onChange={({ target }) => setReplyInput(target.value)}
+      />
       <UserReplyButton onClick={() => handleSubmitReply(replyInput)}>Send</UserReplyButton>
-  </UserReplyBoxContainer>
-  )
+    </UserReplyBoxContainer>
+  );
 }
 
 export default UserReplyBox;
