@@ -4,7 +4,7 @@ const cors = require('cors');
 const commentRouter = require('./routes/comment-routes');
 const userRouter = require('./routes/user-routes');
 
-const AppError = require('./utils/appError');
+const AppError = require('./utils/AppError');
 const errorController = require('./controllers/errorController');
 
 const app = express();
