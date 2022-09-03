@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import userService from '../../api/user-service';
 import { UserContext } from '../../context/user.context';
 import { initializeComments } from '../../reducers/comment-reducer';
 
