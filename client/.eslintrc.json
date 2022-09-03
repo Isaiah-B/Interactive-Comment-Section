@@ -20,7 +20,7 @@
     "rules": {
         "semi": ["error", "always"],
         "quotes": ["warn", "single"],
-        "linebreak-style": ["error", "windows"],
+        "linebreak-style": 1,
         "curly": ["error", "multi"],
         "nonblock-statement-body-position": ["warn", "below"],
         "no-underscore-dangle": "off",
