@@ -19,7 +19,6 @@ const getAllComments = async () => {
 
 const getOneComment = async (commentId) => {
   const res = await axios.get(`${baseUrl}/${commentId}`);
-  console.log(res.data.comment);
   return res.data.comment;
 };
 
