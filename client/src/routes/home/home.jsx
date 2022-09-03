@@ -20,25 +20,15 @@ function Home() {
     ),
   );
 
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser, createUser } = useContext(UserContext);
 
   useEffect(() => {
     dispatch(initializeComments());
   }, []);
 
-  const createUser = async (event, username) => {
+  const handleCreateUser = async (event, username) => {
     event.preventDefault();
-    const { token, user } = await userService.createUser(username);
-
-    const newUser = {
-      id: user._id,
-      username: user.username,
-      image: user.image.png,
-      token,
-    };
-
-    setCurrentUser(newUser);
-    localStorage.setItem('user', JSON.stringify(newUser));
+    createUser(username);
   };
 
   if (!comments)
@@ -46,7 +36,7 @@ function Home() {
 
   return (
     <>
-      { !currentUser && <CreateUserModal handleCreateUser={createUser} /> }
+      { !currentUser && <CreateUserModal handleCreateUser={handleCreateUser} /> }
       <Container>
         <Main>
           <SectionComments>
