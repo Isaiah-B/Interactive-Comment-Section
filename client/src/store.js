@@ -5,7 +5,7 @@ import commentReducer from './reducers/comment-reducer';
 const store = configureStore({
   reducer: {
     comments: commentReducer,
-  }
-})
+  },
+});
 
 export default store;

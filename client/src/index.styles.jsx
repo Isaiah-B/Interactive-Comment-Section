@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from "styled-components";
+import { createGlobalStyle, css } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`  
   * {
@@ -22,7 +22,7 @@ export const GlobalStyle = createGlobalStyle`
     height: 100vh;
     position: relative;
   }
-`
+`;
 
 export const Box = css`
   display: flex;
@@ -32,7 +32,7 @@ export const Box = css`
   border-radius: 8px;
   background-color: hsl(0, 0%, 100%);
   
-`
+`;
 
 export const Button = css`
   font-size: 1.6rem;
@@ -49,7 +49,7 @@ export const Button = css`
     cursor: pointer;
     opacity: 40%;
   }
-`
+`;
 
 export const TextArea = css`
   font-family: inherit;
@@ -64,14 +64,14 @@ export const TextArea = css`
   &:focus {
     outline: 1px solid hsl(238, 40%, 52%);
   }
-`
+`;
 
 export const NewCommentBox = css`
   ${Box};
   gap: 1.8rem;
   padding: 2rem 2.4rem;
   width: 100%;
-`
+`;
 
 export const ModalBg = css`
   display: flex;
@@ -87,7 +87,7 @@ export const ModalBg = css`
     bottom: 0;
     background-color: hsla(0, 0%, 0%, 0.6);
   }
-`
+`;
 
 export const Modal = css`
   display: flex;
@@ -111,7 +111,7 @@ export const Modal = css`
   p {
     font-size: 1.6rem;
     line-height: 1.6;
-    color: hsl(211, 10%, 45%);
+    /* color: hsl(211, 10%, 45%); */
   }
 
   label {
@@ -132,4 +132,4 @@ export const Modal = css`
   button {
     ${Button};
   }
-`
+`;

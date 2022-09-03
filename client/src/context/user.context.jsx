@@ -1,11 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from 'react';
 
 export const UserContext = createContext({
   currentUser: {},
   setCurrentUser: () => {},
 });
 
-export const UserProvider = ({ children }) => {
+export function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -13,8 +13,7 @@ export const UserProvider = ({ children }) => {
       setCurrentUser(JSON.parse(localStorage.getItem('user')));
   }, []);
 
-
   const value = { currentUser, setCurrentUser };
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider> 
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
