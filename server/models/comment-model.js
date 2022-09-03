@@ -19,25 +19,25 @@ const commentSchema = new mongoose.Schema({
   replies: [
     {
       type: mongoose.Types.ObjectId,
-      ref: 'Comment'
-    }
+      ref: 'Comment',
+    },
   ],
 
   replyingTo: {
     type: mongoose.Schema.Types.ObjectId,
-    default: null
+    default: null,
   },
 
   topLevelComment: {
     type: mongoose.Types.ObjectId,
-    default: null
+    default: null,
   },
-  
+
   user: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
     required: [true, 'Comment must have a user'],
-  }
+  },
 });
 
 // Populate replies and user for document and its subdocuments
@@ -51,10 +51,6 @@ commentSchema.pre(/^find/, autoPopulateReplies);
 commentSchema.pre('save', function (next) {
   this.populate('user');
   next();
-})
+});
 
-// commentSchema.pre('update', function (next) {
-//   this.populate('user');
-//   next();
-// })
 module.exports = mongoose.model('Comment', commentSchema);

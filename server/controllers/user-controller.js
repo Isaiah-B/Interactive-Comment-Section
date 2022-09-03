@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
 
 const User = require('../models/user-model');
 const AppError = require('../utils/appError');
@@ -14,7 +12,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
   if (!newUser || !token)
     return next(new AppError('User could not be created', 400));
 
-  res.status(201).json({
+  return res.status(201).json({
     status: 'success',
     token,
     scoredComments: [],

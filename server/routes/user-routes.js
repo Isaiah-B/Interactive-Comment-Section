@@ -1,9 +1,8 @@
-const { createUser, scoreComment } = require('../controllers/user-controller');
-const { protect } = require('../controllers/auth-controller');
-
 const router = require('express').Router();
+
+const { createUser } = require('../controllers/user-controller');
 
 router.route('/')
   .post(createUser);
-  
+
 module.exports = router;

@@ -13,30 +13,28 @@ exports.getAll = catchAsync(async (req, res, next) => {
   });
 });
 
-
 exports.getComment = catchAsync(async (req, res, next) => {
   const comment = await Comment
     .findById(req.params.id)
     .populate({
       path: 'replies',
-      populate: { path: 'replies' }
+      populate: { path: 'replies' },
     });
 
   if (!comment)
     return next(new AppError('The requested comment was not found', 404));
 
-  res.status(200).json({
-  status: 'success',
-  comment
+  return res.status(200).json({
+    status: 'success',
+    comment,
   });
 });
 
-
 exports.createComment = catchAsync(async (req, res, next) => {
-  const user = req.user;
+  const { user } = req;
   const newComment = await Comment.create({
     ...req.body,
-    user
+    user,
   });
 
   res.status(201).json({
@@ -45,14 +43,13 @@ exports.createComment = catchAsync(async (req, res, next) => {
   });
 });
 
-
 exports.createReply = catchAsync(async (req, res, next) => {
-  const user = req.user;
+  const { user } = req;
   const parentComment = await Comment
     .findById(req.params.id)
-    .populate({ 
+    .populate({
       path: 'user',
-      select: '-__v' 
+      select: '-__v',
     });
 
   if (!parentComment)
@@ -64,20 +61,19 @@ exports.createReply = catchAsync(async (req, res, next) => {
     user,
   });
 
+  if (!newReply)
+    return next(new AppError('New reply could not be created', 400));
+
   // Add reply to replied to comment and return top level comment
-  if (newReply) {
-    parentComment.replies = parentComment.replies.concat(newReply._id);
-    await parentComment.save();
+  parentComment.replies = parentComment.replies.concat(newReply._id);
+  await parentComment.save();
 
-
-    res.status(201).json({
-      status: 'success',
-      newReply,
-      parentComment,
-    });
-  }
+  return res.status(201).json({
+    status: 'success',
+    newReply,
+    parentComment,
+  });
 });
-
 
 exports.deleteComment = catchAsync(async (req, res, next) => {
   const deletedComment = await Comment.findByIdAndDelete(req.params.id);
@@ -92,23 +88,15 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
     if (!parentComment)
       return next(new AppError('Parent of deleted comment could not be found', 404));
 
-    parentComment.replies = parentComment.replies.filter(reply => reply.toString() !== deletedComment._id.toString());
+    parentComment.replies = parentComment.replies.filter((reply) => (
+      reply.toString() !== deletedComment._id.toString()
+    ));
+
     await parentComment.save();
-
-    // return res.status(200).json({
-    //   status: 'success',
-    //   deletedComment,
-    //   parentComment
-    // });
   }
-  
-  res.status(204).end();
-  // return res.status(200).json({
-  //   status: 'success',
-  //   deletedComment
-  // });
-});
 
+  return res.status(204).end();
+});
 
 // Used for editing/liking a comment
 exports.updateComment = catchAsync(async (req, res, next) => {
@@ -122,8 +110,8 @@ exports.updateComment = catchAsync(async (req, res, next) => {
   if (!updatedComment)
     return next(new AppError('Comment to be updated could not be found', 404));
 
-  res.status(200).json({
+  return res.status(200).json({
     status: 'success',
-    updatedComment
+    updatedComment,
   });
 });
