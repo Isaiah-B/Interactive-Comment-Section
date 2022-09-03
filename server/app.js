@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => res.send('Successfully hosted by Heroku!'));
 app.use('/api/v1/comments', commentRouter);
 app.use('/api/v1/users', userRouter);
 
