@@ -18,8 +18,10 @@ function UserCommentInput() {
   const dispatch = useDispatch();
 
   const handleSubmitComment = () => {
-    dispatch(createComment(commentInput, currentUser.token));
-    setCommentInput('');
+    if (commentInput.length > 0) {
+      dispatch(createComment(commentInput, currentUser.token));
+      setCommentInput('');
+    }
   };
 
   return (

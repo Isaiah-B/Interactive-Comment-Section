@@ -1,6 +1,6 @@
 # Interactive Comments Section
 
-<!-- ![](images/screenshot.png) -->
+![](client/public/images/screenshot.png)
 
 
 ## Challenge
@@ -17,13 +17,15 @@ Users should be able to:
 ### Links
 
 - [Solution]()
-- [Live Site]()
+- [Live Site](https://frontend-mentor-chat.netlify.app/)
 
 ### Built with
 
 - React/JSX
+- Redux
 - NodeJS
 - Express
+- MongoDB
 - Flexbox
 - CSS Grid
 - CSS Styled Components

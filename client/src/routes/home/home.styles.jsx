@@ -17,9 +17,3 @@ export const Main = styled.main`
   gap: 2rem;
   height: 100%;
 `;
-
-export const SectionComments = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;

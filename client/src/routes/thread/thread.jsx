@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import CommentWrapper from '../../components/comment-wrapper/comment-wrapper';
 import { initializeComments } from '../../reducers/comment-reducer';
+import CommentWrapper from '../../components/comment-wrapper/comment-wrapper';
 
-import { Container, Main, SectionComments } from '../home/home.styles';
+import { Container, Main } from '../home/home.styles';
+import { SectionComments } from '../../components/comments/comments.styles';
 
 function Thread() {
   const dispatch = useDispatch();

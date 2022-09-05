@@ -123,6 +123,7 @@ export const Modal = css`
     padding: 0.6rem;
     border: 1px solid hsl(211, 10%, 45%);
     border-radius: 5px;
+    width: 100%;
 
     &:focus {
       outline: 1px solid hsl(238, 40%, 52%);
