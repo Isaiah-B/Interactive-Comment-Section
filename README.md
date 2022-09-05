@@ -16,7 +16,7 @@ Users should be able to:
 
 ### Links
 
-- [Solution]()
+- [Solution](https://www.frontendmentor.io/solutions/functional-comment-section-using-mern-stack-x9Y8jKW-6q)
 - [Live Site](https://frontend-mentor-chat.netlify.app/)
 
 ### Built with
