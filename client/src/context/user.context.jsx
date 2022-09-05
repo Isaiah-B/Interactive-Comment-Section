@@ -26,6 +26,8 @@ export function UserProvider({ children }) {
     localStorage.setItem('user', JSON.stringify(newUser));
   };
 
+  // If a requested user exists, save it to local storage.
+  // If not, remove user from local storage
   const checkUser = async (userToCheck) => {
     const { id } = userToCheck;
     const { user } = await userService.getUser(id);

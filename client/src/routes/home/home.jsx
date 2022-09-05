@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { UserContext } from '../../context/user.context';
 import { initializeComments } from '../../reducers/comment-reducer';
+import selectComments from '../../utils/select-comments';
 
 import CreateUserModal from '../../components/create-user-modal/create-user-modal';
 import UserCommentInput from '../../components/user-comment-input/user-comment-input';
@@ -12,13 +13,7 @@ import Comments from '../../components/comments/comments';
 
 function Home() {
   const dispatch = useDispatch();
-
-  const comments = useSelector(
-    (state) => state.comments.filter(
-      (comment) => comment.replyingTo === null,
-    ),
-  );
-
+  const comments = useSelector(selectComments);
   const { currentUser, createUser } = useContext(UserContext);
 
   useEffect(() => {
