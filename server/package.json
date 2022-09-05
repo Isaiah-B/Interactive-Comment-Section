@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "clear": "node dev/delete-data.js --delete"
+    "clear-dev": "node dev/delete-data.js --dev",
+    "clear-prod": "node dev/delete-data.js --prod"
   },
   "author": "Isaiah Bell",
   "license": "ISC",

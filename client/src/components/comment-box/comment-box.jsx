@@ -32,6 +32,10 @@ function CommentBox({ comment }) {
 
   const userMentionPattern = /@\w+/g;
 
+  const name = comment.user.username.length > 10
+    ? `${comment.user.username.slice(0, 8)}...`
+    : comment.user.username;
+
   const handleCreateReply = (content) => {
     setReplyOpen(false);
     dispatch(createReply(content, comment._id, currentUser.token));
@@ -39,11 +43,7 @@ function CommentBox({ comment }) {
 
   const handleDeleteChoice = (choice) => {
     if (choice)
-      if (comment.replyingTo)
-        dispatch(deleteComment(comment, currentUser.token));
-      else
-        dispatch(deleteComment(comment, currentUser.token));
-
+      dispatch(deleteComment(comment, currentUser.token));
     else
       setDeleteModalOpen(false);
   };
@@ -84,7 +84,8 @@ function CommentBox({ comment }) {
           handleClickMinus={decrementScore}
         />
         <CommentBoxHeader
-          name={comment.user.username}
+          name={name}
+          fullName={comment.user.username}
           image={comment.user.image.png}
           timePosted={formattedDate}
           isUser={currentUser ? currentUser.id === comment.user._id : false}
@@ -98,18 +99,18 @@ function CommentBox({ comment }) {
             && <p dangerouslySetInnerHTML={{ __html: highlightMention(comment.content) }} />}
 
           { isEditing
-        && (
-          <>
-            <EditTextArea
-              defaultValue={comment.content}
-              onChange={({ target }) => setEditInput(target.value)}
-            />
+            && (
+              <>
+                <EditTextArea
+                  defaultValue={comment.content}
+                  onChange={({ target }) => setEditInput(target.value)}
+                />
 
-            <UpdateBtnWrapper>
-              <UpdateBtn onClick={handleUpdateComment}>Update</UpdateBtn>
-            </UpdateBtnWrapper>
-          </>
-        )}
+                <UpdateBtnWrapper>
+                  <UpdateBtn onClick={handleUpdateComment}>Update</UpdateBtn>
+                </UpdateBtnWrapper>
+              </>
+            )}
         </ContentBottom>
       </CommentBoxContainer>
 

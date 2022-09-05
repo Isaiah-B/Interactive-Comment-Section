@@ -3,6 +3,35 @@ import { Box, Button, TextArea } from '../../index.styles';
 import { ButtonsContainer, ContentTopInfo } from '../comment-box-header/comment-box-header.styles';
 import { ScoreContainer } from '../comment-score/comment-score.styles';
 
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  width: 100%;
+  
+  @media (max-width: 33em) {
+    grid-row: 2 / 3;
+  } 
+`;
+
+export const ContentBottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  grid-column: 2 / -1;
+  grid-row: 2 / 3;
+
+  p {
+    line-height: 1.5;
+    color: hsl(211, 10%, 45%);
+  }
+
+  @media (max-width: 33em) {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+`;
+
 export const CommentBoxContainer = styled.div`
   ${Box};
   width: 100%;
@@ -12,7 +41,6 @@ export const CommentBoxContainer = styled.div`
   row-gap: 1.4rem;
   column-gap: 2.2rem;
   overflow-wrap: break-word;
-  /* gap: 2.2rem; */
 
   ${ContentTopInfo} {
     grid-row: 1;
@@ -30,26 +58,10 @@ export const CommentBoxContainer = styled.div`
     grid-row: 1 / 3;
   }
 
+  
   @media (max-width: 42em) {
-    ${ButtonsContainer} {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    ${ContentTopInfo} {
-      gap: 1.2rem;
-    }
-  }
-
-
-  @media (max-width: 33em) {
     grid-template-columns: 1fr 1fr;
-
-    ${ContentTopInfo} {
-      grid-column: 1 / -1;
-      grid-row: 1;
-    }
-
+    
     ${ButtonsContainer} {
       grid-row: 3;
       grid-column: 2;
@@ -66,18 +78,35 @@ export const CommentBoxContainer = styled.div`
       width: 10rem;
       align-self: center;
     }
-  }
-`;
 
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-  width: 100%;
-  
+    ${ContentTopInfo} {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+
+    ${ContentTopInfo} {
+      gap: 1.2rem;
+    }
+
+    ${ContentBottom} {
+      grid-row: 2;
+      grid-column: 1 / -1;
+    }
+  }
+
+
   @media (max-width: 33em) {
-    grid-row: 2 / 3;
-  } 
+    grid-template-columns: 1fr 1fr;
+
+    ${ContentTopInfo} {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+
+    ${Content} {
+      grid-row: 2 / 3;
+    }
+  }
 `;
 
 export const ContentTop = styled.div`
@@ -108,23 +137,6 @@ export const BtnReply = styled.button`
 
   &:hover {
     opacity: 0.5;
-  }
-`;
-
-export const ContentBottom = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  grid-column: 2 / -1;
-  grid-row: 2 / 3;
-  p {
-    line-height: 1.5;
-    color: hsl(211, 10%, 45%);
-  }
-
-  @media (max-width: 33em) {
-    grid-row: 2;
-    grid-column: 1 / -1;
   }
 `;
 

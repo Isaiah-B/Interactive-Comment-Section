@@ -15,7 +15,6 @@ exports.createUser = catchAsync(async (req, res, next) => {
   return res.status(201).json({
     status: 'success',
     token,
-    scoredComments: [],
     user: newUser,
   });
 });

@@ -64,7 +64,7 @@ exports.createReply = catchAsync(async (req, res, next) => {
   if (!newReply)
     return next(new AppError('New reply could not be created', 400));
 
-  // Add reply to replied to comment and return top level comment
+  // Add reply to its parent and return both reply and parent
   parentComment.replies = parentComment.replies.concat(newReply._id);
   await parentComment.save();
 
@@ -81,7 +81,7 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
   if (!deletedComment)
     return next(new AppError('Comment to be deleted could not be found', 404));
 
-  // Return parent document if deleted comment is a reply
+  // If the deleted comment is a reply, remove it from the parent reply array
   if (deletedComment.replyingTo) {
     const parentComment = await Comment.findById(deletedComment.replyingTo);
 

@@ -28,11 +28,6 @@ const commentSchema = new mongoose.Schema({
     default: null,
   },
 
-  topLevelComment: {
-    type: mongoose.Types.ObjectId,
-    default: null,
-  },
-
   user: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
